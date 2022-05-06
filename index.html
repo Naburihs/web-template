@@ -179,7 +179,26 @@
 									</div>
 								</div>
 								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
+									<!--Script API-->
+									<script>
+										var callAPI = (name,email,message)=>{
+											var myHeaders = new Headers();
+											myHeaders.append("Content-Type", "application/json");
+											var raw = JSON.stringify({"name":name,"email":email,"message":message});
+											var requestOptions = {
+												method: 'POST',
+												headers: myHeaders,
+												body: raw,
+												redirect: 'follow'
+											};
+											fetch("https://zcgg51dbgc.execute-api.eu-west-1.amazonaws.com/dev", requestOptions)
+											.then(response => response.text())
+											.then(result => alert(JSON.parse(result).body))
+											.catch(error => console.log('error', error));
+										}
+									</script>
+									<!-------------->
+									<li><button type="button" onclick="callAPI(document.getElementById('name').value,document.getElementById('email').value,document.getElementById('message').value)">Send Message</button></li>
 								</ul>
 							</form>
 						</section>
@@ -224,6 +243,5 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>
